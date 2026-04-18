@@ -42,7 +42,7 @@ final class DeviceProfileService {
             return "MacBook Air"
         case "Mac14,3", "Mac14,12":
             return "Mac mini"
-        case "Mac14,13", "Mac14,14":
+        case "Mac14,13", "Mac14,14", "Mac15,14", "Mac16,9":
             return "Mac Studio"
         case "Mac14,8":
             return "Mac Pro"
