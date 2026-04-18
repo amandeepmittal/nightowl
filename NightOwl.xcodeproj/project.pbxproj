@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10001001 /* NightOwlApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002001; };
+		A10001002 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002002; };
+		A10001003 /* NightOwlLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002003; };
+		A10001004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10002004; };
+		A10001010 /* AwakeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010; };
+		A10001011 /* AwakeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002011; };
+		A10001012 /* DeviceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002012; };
+		A10001013 /* SystemWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002013; };
+		A10001020 /* SleepAssertionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002020; };
+		A10001021 /* DeviceProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002021; };
+		A10001022 /* PowerStateMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002022; };
+		A10001023 /* SystemSettingsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002023; };
+		A10001024 /* AwakeScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002024; };
+		A10001030 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002030; };
+		A10001031 /* TimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002031; };
+		A10001032 /* WarningsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002032; };
+		A10001033 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002033; };
+		A10001034 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002034; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A10003001 /* NightOwl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NightOwl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10002001 /* NightOwlApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightOwlApp.swift; sourceTree = "<group>"; };
+		A10002002 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A10002003 /* NightOwlLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightOwlLayout.swift; sourceTree = "<group>"; };
+		A10002004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A10002005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10002010 /* AwakeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakeState.swift; sourceTree = "<group>"; };
+		A10002011 /* AwakeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakeMode.swift; sourceTree = "<group>"; };
+		A10002012 /* DeviceProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceProfile.swift; sourceTree = "<group>"; };
+		A10002013 /* SystemWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWarning.swift; sourceTree = "<group>"; };
+		A10002020 /* SleepAssertionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAssertionManager.swift; sourceTree = "<group>"; };
+		A10002021 /* DeviceProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceProfileService.swift; sourceTree = "<group>"; };
+		A10002022 /* PowerStateMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerStateMonitor.swift; sourceTree = "<group>"; };
+		A10002023 /* SystemSettingsReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsReader.swift; sourceTree = "<group>"; };
+		A10002024 /* AwakeScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakeScheduler.swift; sourceTree = "<group>"; };
+		A10002030 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		A10002031 /* TimerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerView.swift; sourceTree = "<group>"; };
+		A10002032 /* WarningsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningsView.swift; sourceTree = "<group>"; };
+		A10002033 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		A10002034 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10004001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10005001 = {
+			isa = PBXGroup;
+			children = (
+				A10005002 /* NightOwl */,
+				A10005006 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10005002 /* NightOwl */ = {
+			isa = PBXGroup;
+			children = (
+				A10002001 /* NightOwlApp.swift */,
+				A10002002 /* main.swift */,
+				A10002003 /* NightOwlLayout.swift */,
+				A10002005 /* Info.plist */,
+				A10002004 /* Assets.xcassets */,
+				A10005003 /* Models */,
+				A10005004 /* Services */,
+				A10005005 /* Views */,
+			);
+			path = NightOwl;
+			sourceTree = "<group>";
+		};
+		A10005003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A10002010 /* AwakeState.swift */,
+				A10002011 /* AwakeMode.swift */,
+				A10002012 /* DeviceProfile.swift */,
+				A10002013 /* SystemWarning.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A10005004 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A10002020 /* SleepAssertionManager.swift */,
+				A10002021 /* DeviceProfileService.swift */,
+				A10002022 /* PowerStateMonitor.swift */,
+				A10002023 /* SystemSettingsReader.swift */,
+				A10002024 /* AwakeScheduler.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A10005005 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A10002030 /* MenuBarView.swift */,
+				A10002031 /* TimerPickerView.swift */,
+				A10002032 /* WarningsView.swift */,
+				A10002033 /* AboutView.swift */,
+				A10002034 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A10005006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10003001 /* NightOwl.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10006001 /* NightOwl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10008002 /* Build configuration list for PBXNativeTarget "NightOwl" */;
+			buildPhases = (
+				A10007001 /* Sources */,
+				A10004001 /* Frameworks */,
+				A10007002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NightOwl;
+			productName = NightOwl;
+			productReference = A10003001 /* NightOwl.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10009001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A10006001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A10008001 /* Build configuration list for PBXProject "NightOwl" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10005001;
+			productRefGroup = A10005006 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10006001 /* NightOwl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10007002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001004 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10007001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001001 /* NightOwlApp.swift in Sources */,
+				A10001002 /* main.swift in Sources */,
+				A10001003 /* NightOwlLayout.swift in Sources */,
+				A10001010 /* AwakeState.swift in Sources */,
+				A10001011 /* AwakeMode.swift in Sources */,
+				A10001012 /* DeviceProfile.swift in Sources */,
+				A10001013 /* SystemWarning.swift in Sources */,
+				A10001020 /* SleepAssertionManager.swift in Sources */,
+				A10001021 /* DeviceProfileService.swift in Sources */,
+				A10001022 /* PowerStateMonitor.swift in Sources */,
+				A10001023 /* SystemSettingsReader.swift in Sources */,
+				A10001024 /* AwakeScheduler.swift in Sources */,
+				A10001030 /* MenuBarView.swift in Sources */,
+				A10001031 /* TimerPickerView.swift in Sources */,
+				A10001032 /* WarningsView.swift in Sources */,
+				A10001033 /* AboutView.swift in Sources */,
+				A10001034 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1000A001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A1000A002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A1000A003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NightOwl/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Aman Mittal. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.amanhimself.nightowl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A1000A004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NightOwl/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Aman Mittal. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.amanhimself.nightowl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10008001 /* Build configuration list for PBXProject "NightOwl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000A001 /* Debug */,
+				A1000A002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10008002 /* Build configuration list for PBXNativeTarget "NightOwl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000A003 /* Debug */,
+				A1000A004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A10009001 /* Project object */;
+}
