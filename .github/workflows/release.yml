@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Release
+        run: |
+          xcodebuild -scheme NightOwl \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Create zip
+        run: |
+          APP_PATH=$(find build -name "NightOwl.app" -type d | head -1)
+          ditto -c -k --keepParent "$APP_PATH" NightOwl-${{ github.ref_name }}.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: NightOwl ${{ github.ref_name }}
+          body: |
+            ## NightOwl ${{ github.ref_name }}
+
+            A tiny macOS menu bar app that keeps your Mac awake for overnight AI agent runs.
+
+            ### Installation
+            1. Download `NightOwl-${{ github.ref_name }}.zip` below
+            2. Unzip and move `NightOwl.app` to your Applications folder
+            3. Remove the quarantine flag (required once for unsigned builds):
+               ```bash
+               xattr -cr /Applications/NightOwl.app
+               ```
+            4. Open `NightOwl.app` from Applications or Spotlight
+
+            ### Requirements
+            - macOS 13 (Ventura) or later
+          files: NightOwl-${{ github.ref_name }}.zip
