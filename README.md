@@ -18,22 +18,15 @@ You walk away from your Mac while an AI agent, long job, or overnight script is 
 
 ## Features
 
-- **One-click keep-awake** - flip a single menu bar toggle to hold a system-wide sleep assertion until you release it
-- **Awake modes** - Indefinite, Until 8:00 AM, For 1 / 4 / 8 / 12 hours, or a custom release time
-- **Keep display awake too** - optional second assertion that also blocks display sleep (disabled by default so the screen still dims)
-- **Smart warnings** - surfaces system conditions that could still end your run: on battery, lid closed, auto-logout enabled, screen will lock; each links straight to the relevant System Settings pane
-- **Device-aware** - battery and clamshell warnings only appear on MacBooks; hidden on Mac Studio, mini, and iMac
-- **Status line** - shows when the current session started, when it releases, and how long is left
-- **Launch at login** - register with macOS via `SMAppService` from Settings
-- **No dock icon** - lives entirely in the menu bar via `NSStatusItem` with activation policy `.accessory`
-- **Pure IOKit** - uses `IOPMAssertionCreateWithName` directly; no shelling out to `caffeinate`, no background processes
-
-## How it works
-
-- **Sleep prevention.** IOKit `IOPMAssertionCreateWithName` with `kIOPMAssertionTypePreventUserIdleSystemSleep`, plus an independent second assertion for `kIOPMAssertionTypePreventUserIdleDisplaySleep` when "Keep display awake too" is enabled. Both assertion IDs are held separately so the display toggle is cleanly additive.
-- **Auto-release.** A `DispatchSourceTimer` fires at the scheduled release time and calls `release()` on the sleep assertion.
-- **Power-state warnings.** `IOPSCopyPowerSourcesList` detects portable vs desktop; `IOPSNotificationCreateRunLoopSource` observes AC/battery transitions and refreshes the warnings list on change.
-- **System settings.** `CFPreferencesCopyValue` reads `com.apple.loginwindow autoLogOutDelay` and `com.apple.screensaver askForPassword` / `askForPasswordDelay` to surface the auto-logout and screen-lock warnings.
+- **One-click keep-awake** - one menu bar toggle holds a system sleep assertion until you release it
+- **Awake modes** - Indefinite, Until 8 AM, For 1 / 4 / 8 / 12 hours, or custom release time
+- **Keep display awake too** - optional second assertion that also blocks display sleep (off by default)
+- **Smart warnings** - flags battery, lid-closed, auto-logout, and screen-lock conditions; each links to System Settings
+- **Device-aware** - battery and clamshell warnings only on MacBooks; hidden on desktops
+- **Status line** - session start, scheduled release, and time remaining
+- **Launch at login** - `SMAppService` toggle in Settings
+- **No dock icon** - menu bar only (`NSStatusItem` with `.accessory` activation policy)
+- **Pure IOKit** - `IOPMAssertionCreateWithName` direct; no `caffeinate`, no background processes
 
 ## Install
 
