@@ -19,10 +19,14 @@ You walk away from your Mac while an AI agent, long job, or overnight script is 
 ## Features
 
 - **One-click keep-awake** - one menu bar toggle holds a system sleep assertion until you release it
-- **Awake modes** - Indefinite, Until 8 AM, For 1 / 4 / 8 / 12 hours, or custom release time
-- **Keep display awake too** - optional second assertion that also blocks display sleep (off by default)
-- **Smart warnings** - flags battery, lid-closed, auto-logout, and screen-lock conditions; each links to System Settings
-- **Device-aware** - battery and clamshell warnings only on MacBooks; hidden on desktops
+- **Awake modes** - Indefinite, Until next 8:00 AM, For 1 / 4 / 8 / 12 hours, or custom release time
+- **Keep display awake too** - optional second assertion that also blocks display sleep, preventing the lock screen that would otherwise engage when the display turns off
+- **Active-state icon** - the menu bar icon tints your accent color while a session is running, so you can tell at a glance without opening the popover
+- **Expiry notification** - a system notification is posted when a timed session ends, so you know the keep-awake window has closed
+- **Persistent defaults** - Settings lets you pick the default mode (including custom hours/minutes) and whether Keep display awake too starts on; stored in `UserDefaults` and applied at launch
+- **Sleep/wake aware** - if macOS sleeps for any reason the assertion can't block, NightOwl re-anchors or releases the session to wall-clock time when it wakes
+- **Smart warnings** - flags battery, lid-closed, auto-logout, and screen-lock conditions; each links to System Settings; re-checked every time the popover opens
+- **Device-aware** - battery and clamshell warnings only on MacBooks; UPS-attached desktops are correctly classified as desktops
 - **Status line** - session start, scheduled release, and time remaining
 - **Launch at login** - `SMAppService` toggle in Settings
 - **No dock icon** - menu bar only (`NSStatusItem` with `.accessory` activation policy)
@@ -32,11 +36,21 @@ You walk away from your Mac while an AI agent, long job, or overnight script is 
 
 1. Download `NightOwl-vX.X.X.zip` from the [latest release](https://github.com/amandeepmittal/nightowl/releases/latest)
 2. Unzip and move `NightOwl.app` to your Applications folder
-3. Remove the quarantine flag (required once for unsigned builds):
+3. Remove the quarantine flag **before** first launch (required once for unsigned builds):
    ```bash
    xattr -cr /Applications/NightOwl.app
    ```
 4. Open `NightOwl.app` from Applications or Spotlight
+
+### If you already double-clicked and saw "NightOwl.app Not Opened"
+
+macOS 15+ shows a Gatekeeper dialog whose primary button is **Move to Trash**. Do **not** click it (it will delete the app). Recover by:
+
+1. Click **Done** to dismiss the dialog.
+2. Open **System Settings → Privacy & Security**, scroll to the Security section, and click **Open Anyway** next to the NightOwl entry.
+3. Confirm with your password, then reopen NightOwl.
+
+Alternatively, run the `xattr -cr` command from step 3 above and reopen — it bypasses the prompt entirely.
 
 ## Verify it is working
 
@@ -58,7 +72,10 @@ You should see `PreventUserIdleSystemSleep` held by `NightOwl keep-awake`, and (
 - Swift 5.9, SwiftUI
 - `NSStatusItem` + `NSPopover` for menu bar integration
 - IOKit (`IOPMAssertionCreateWithName`, `IOPSCopyPowerSourcesList`, `IOPSNotificationCreateRunLoopSource`) for sleep prevention and power-source monitoring
+- `NSWorkspace.didWakeNotification` observation to re-anchor sessions after system wake
+- `UserNotifications` for end-of-session alerts
 - `CFPreferences` for reading system login and screensaver settings
+- `UserDefaults` for persisting the user's default mode and display-awake preference
 - `SMAppService` for launch-at-login on macOS 13+
 - `DispatchSourceTimer` for auto-release scheduling
 - CoreGraphics + ImageIO for the generated app and menu bar icons (see `NightOwl/Assets.xcassets/AppIcon.appiconset/_generate_icons.swift`)
