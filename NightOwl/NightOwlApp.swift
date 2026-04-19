@@ -99,6 +99,26 @@ final class NightOwlViewModel: NightOwlViewModeling {
                 self?.applyLaunchAtLogin(enabled)
             }
             .store(in: &cancellables)
+
+        $keepDisplayAwake
+            .dropFirst()
+            .sink { [weak self] newValue in
+                self?.applyKeepDisplayAwakeChange(newValue)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func applyKeepDisplayAwakeChange(_ newValue: Bool) {
+        guard case .on(let mode, let startedAt, let expiresAt, let current) = state,
+              current != newValue else { return }
+        do {
+            try sleepAssertion.assert(preventDisplaySleep: newValue)
+            state = .on(mode: mode, startedAt: startedAt, expiresAt: expiresAt, keepDisplayAwake: newValue)
+            logger.info("Re-asserted; keepDisplayAwake=\(newValue, privacy: .public)")
+        } catch {
+            logger.error("Re-assert failed: \(String(describing: error), privacy: .public)")
+            keepDisplayAwake = current
+        }
     }
 
     func toggle() {
