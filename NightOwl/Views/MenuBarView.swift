@@ -26,6 +26,7 @@ struct MenuBarView<VM: NightOwlViewModeling>: View {
     var modelDisplayName: String = ""
 
     @State private var screen: MenuBarScreen = .main
+    @State private var showKeepDisplayInfo = false
 
     var body: some View {
         Group {
@@ -55,10 +56,35 @@ struct MenuBarView<VM: NightOwlViewModeling>: View {
             ))
             .disabled(vm.state.isOn)
 
-            Toggle("Keep display awake too", isOn: $vm.keepDisplayAwake)
-                .toggleStyle(.switch)
-                .disabled(!vm.state.isOn)
-                .accessibilityLabel("Keep display awake too")
+            HStack(spacing: 6) {
+                Text("Keep display awake too")
+                Button {
+                    showKeepDisplayInfo.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("About keep display awake")
+                .popover(isPresented: $showKeepDisplayInfo, arrowEdge: .top) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Prevents the lock screen")
+                            .font(.headline)
+                        Text("macOS locks your screen when the display sleeps. Turn this on to keep the display lit so the lock screen never triggers. Without it, NightOwl keeps the Mac awake but your screen will still lock after the display timeout.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(14)
+                    .frame(width: 280)
+                }
+                Spacer()
+                Toggle("", isOn: $vm.keepDisplayAwake)
+                    .labelsHidden()
+                    .toggleStyle(.switch)
+                    .disabled(!vm.state.isOn)
+                    .accessibilityLabel("Keep display awake too")
+            }
 
             if !vm.warnings.isEmpty {
                 WarningsView(warnings: vm.warnings) { warning in
