@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TimerPickerView: View {
     @Binding var selectedMode: AwakeMode
+    @Environment(\.isEnabled) private var isEnabled
 
     @State private var showingCustomSheet = false
 
@@ -9,33 +10,44 @@ struct TimerPickerView: View {
         HStack {
             Text("Mode")
             Spacer()
-            Menu {
-                Button("Indefinite") { selectedMode = .indefinite }
-                Button("Until 8:00 AM") { selectedMode = .until(Self.nextEightAM(from: Date())) }
-                Divider()
-                Button("For 1 hour") { selectedMode = .duration(3600) }
-                Button("For 4 hours") { selectedMode = .duration(3600 * 4) }
-                Button("For 8 hours") { selectedMode = .duration(3600 * 8) }
-                Button("For 12 hours") { selectedMode = .duration(3600 * 12) }
-                Divider()
-                Button("Custom duration…") { showingCustomSheet = true }
-            } label: {
-                HStack(spacing: 4) {
-                    Text(selectedMode.displayLabel)
-                        .foregroundStyle(.primary)
-                    Image(systemName: "chevron.up.chevron.down")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
+            if isEnabled {
+                modeMenu
+            } else {
+                Text(selectedMode.displayLabel)
+                    .foregroundStyle(.primary)
+                    .accessibilityLabel("Awake mode")
+                    .accessibilityValue(selectedMode.displayLabel)
             }
-            .menuStyle(.borderlessButton)
-            .fixedSize()
-            .accessibilityLabel("Awake mode")
-            .accessibilityValue(selectedMode.displayLabel)
         }
         .sheet(isPresented: $showingCustomSheet) {
             CustomDurationSheet(selectedMode: $selectedMode, isPresented: $showingCustomSheet)
         }
+    }
+
+    private var modeMenu: some View {
+        Menu {
+            Button("Indefinite") { selectedMode = .indefinite }
+            Button("Until 8:00 AM") { selectedMode = .until(Self.nextEightAM(from: Date())) }
+            Divider()
+            Button("For 1 hour") { selectedMode = .duration(3600) }
+            Button("For 4 hours") { selectedMode = .duration(3600 * 4) }
+            Button("For 8 hours") { selectedMode = .duration(3600 * 8) }
+            Button("For 12 hours") { selectedMode = .duration(3600 * 12) }
+            Divider()
+            Button("Custom duration…") { showingCustomSheet = true }
+        } label: {
+            HStack(spacing: 4) {
+                Text(selectedMode.displayLabel)
+                    .foregroundStyle(.primary)
+                Image(systemName: "chevron.up.chevron.down")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .accessibilityLabel("Awake mode")
+        .accessibilityValue(selectedMode.displayLabel)
     }
 
     static func nextEightAM(from now: Date) -> Date {
