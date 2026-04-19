@@ -60,14 +60,19 @@ final class NightOwlViewModel: NightOwlViewModeling {
     @Published var state: AwakeState = .off
     @Published var profile: DeviceProfile
     @Published var warnings: [SystemWarning] = []
-    @Published var keepDisplayAwake: Bool = false
-    @Published var selectedMode: AwakeMode = .duration(3600 * 8)
+    @Published var keepDisplayAwake: Bool
+    @Published var selectedMode: AwakeMode
     @Published var launchAtLogin: Bool
-    @Published var defaultKeepDisplayAwake: Bool = false
-    @Published var defaultMode: AwakeMode = .duration(3600 * 8)
+    @Published var defaultKeepDisplayAwake: Bool
+    @Published var defaultMode: AwakeMode
 
     private var cancellables: Set<AnyCancellable> = []
     private let logger = Logger(subsystem: "com.nightowl", category: "ViewModel")
+
+    private static let defaultKeepDisplayAwakeKey = "defaultKeepDisplayAwake"
+    private static let defaultModeKindKey = "defaultModeKind"
+    private static let defaultModeDurationKey = "defaultModeDurationSeconds"
+    private static let fallbackDuration: TimeInterval = 3600 * 8
 
     init() {
         let sleepAssertion = SleepAssertionManager()
@@ -84,6 +89,13 @@ final class NightOwlViewModel: NightOwlViewModeling {
         self.profile = deviceProfile.current()
         self.modelDisplayName = deviceProfile.modelDisplayName()
         self.launchAtLogin = (SMAppService.mainApp.status == .enabled)
+
+        let loadedKeepDisplay = Self.loadDefaultKeepDisplayAwake()
+        let loadedMode = Self.loadDefaultMode()
+        self.defaultKeepDisplayAwake = loadedKeepDisplay
+        self.defaultMode = loadedMode
+        self.keepDisplayAwake = loadedKeepDisplay
+        self.selectedMode = loadedMode
 
         refreshWarnings()
 
@@ -106,6 +118,75 @@ final class NightOwlViewModel: NightOwlViewModeling {
                 self?.applyKeepDisplayAwakeChange(newValue)
             }
             .store(in: &cancellables)
+
+        $defaultKeepDisplayAwake
+            .dropFirst()
+            .sink { newValue in
+                UserDefaults.standard.set(newValue, forKey: Self.defaultKeepDisplayAwakeKey)
+            }
+            .store(in: &cancellables)
+
+        $defaultMode
+            .dropFirst()
+            .sink { newValue in
+                Self.storeDefaultMode(newValue)
+            }
+            .store(in: &cancellables)
+
+        NSWorkspace.shared.notificationCenter
+            .publisher(for: NSWorkspace.didWakeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleDidWake()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func handleDidWake() {
+        refreshWarnings()
+        guard case .on(_, _, let expiresAt?, _) = state else { return }
+        if Date() >= expiresAt {
+            logger.info("Wake: session expired during sleep; releasing")
+            turnOff()
+            return
+        }
+        scheduler.cancel()
+        scheduler.schedule(expiresAt: expiresAt) { [weak self] in
+            self?.turnOff()
+        }
+        logger.info("Wake: rescheduled for \(expiresAt, privacy: .public)")
+    }
+
+    private static func loadDefaultKeepDisplayAwake() -> Bool {
+        UserDefaults.standard.bool(forKey: defaultKeepDisplayAwakeKey)
+    }
+
+    private static func loadDefaultMode() -> AwakeMode {
+        let kind = UserDefaults.standard.string(forKey: defaultModeKindKey) ?? "duration"
+        switch kind {
+        case "indefinite":
+            return .indefinite
+        case "until8AM":
+            return .until(TimerPickerView.nextEightAM(from: Date()))
+        case "duration":
+            let seconds = UserDefaults.standard.double(forKey: defaultModeDurationKey)
+            return .duration(seconds > 0 ? seconds : fallbackDuration)
+        default:
+            return .duration(fallbackDuration)
+        }
+    }
+
+    private static func storeDefaultMode(_ mode: AwakeMode) {
+        let d = UserDefaults.standard
+        switch mode {
+        case .indefinite:
+            d.set("indefinite", forKey: defaultModeKindKey)
+        case .until:
+            d.set("until8AM", forKey: defaultModeKindKey)
+        case .duration(let seconds):
+            d.set("duration", forKey: defaultModeKindKey)
+            d.set(seconds, forKey: defaultModeDurationKey)
+        }
     }
 
     private func applyKeepDisplayAwakeChange(_ newValue: Bool) {
@@ -117,13 +198,14 @@ final class NightOwlViewModel: NightOwlViewModeling {
             logger.info("Re-asserted; keepDisplayAwake=\(newValue, privacy: .public)")
         } catch {
             logger.error("Re-assert failed: \(String(describing: error), privacy: .public)")
-            keepDisplayAwake = current
+            turnOff()
         }
     }
 
     func toggle() {
         switch state {
         case .off:
+            keepDisplayAwake = defaultKeepDisplayAwake
             do {
                 try sleepAssertion.assert(preventDisplaySleep: keepDisplayAwake)
                 let now = Date()
@@ -164,7 +246,7 @@ final class NightOwlViewModel: NightOwlViewModeling {
         NSWorkspace.shared.open(url)
     }
 
-    private func refreshWarnings() {
+    func refreshWarnings() {
         var result: [SystemWarning] = []
 
         if case .portable(let hasBattery) = profile, hasBattery,

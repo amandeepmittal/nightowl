@@ -15,6 +15,10 @@ final class DeviceProfileService {
             return .desktop
         }
 
+        let transport = info[kIOPSTransportTypeKey as String] as? String
+        guard transport == (kIOPSInternalType as String) else {
+            return .desktop
+        }
         let isPresent = (info[kIOPSIsPresentKey as String] as? Bool) ?? false
         return .portable(hasBattery: isPresent)
     }

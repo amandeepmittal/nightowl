@@ -13,6 +13,7 @@ import SwiftUI
     func toggle()
     func setMode(_ mode: AwakeMode)
     func openSettings(for warning: SystemWarning)
+    func refreshWarnings()
 }
 
 enum MenuBarScreen {
@@ -102,6 +103,7 @@ struct MenuBarView<VM: NightOwlViewModeling>: View {
         }
         .padding(16)
         .frame(width: NightOwlLayout.windowWidth, alignment: .leading)
+        .onAppear { vm.refreshWarnings() }
     }
 
     private var header: some View {
@@ -227,6 +229,7 @@ struct MenuBarView<VM: NightOwlViewModeling>: View {
 
     func setMode(_ mode: AwakeMode) { selectedMode = mode }
     func openSettings(for warning: SystemWarning) { _ = warning.settingsURL }
+    func refreshWarnings() {}
 }
 
 #Preview("Off") {
