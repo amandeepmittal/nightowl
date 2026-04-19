@@ -8,7 +8,6 @@ struct TimerPickerView: View {
     var body: some View {
         HStack {
             Text("Mode")
-                .font(.subheadline)
             Spacer()
             Menu {
                 Button("Indefinite") { selectedMode = .indefinite }
