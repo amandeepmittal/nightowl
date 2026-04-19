@@ -2,6 +2,7 @@ import SwiftUI
 import AppKit
 import Combine
 import ServiceManagement
+import UserNotifications
 import os
 
 @MainActor
@@ -9,6 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     private var viewModel: NightOwlViewModel!
+    private var cancellables: Set<AnyCancellable> = []
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -34,6 +36,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.target = self
             button.setAccessibilityLabel("NightOwl")
         }
+
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.applyIconState(state.isOn)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func applyIconState(_ isActive: Bool) {
+        guard let button = statusItem.button else { return }
+        button.contentTintColor = isActive ? NSColor(named: "AccentColor") ?? .systemBlue : nil
     }
 
     @objc private func togglePopover(_ sender: Any?) {
@@ -72,6 +86,7 @@ final class NightOwlViewModel: NightOwlViewModeling {
     private static let defaultKeepDisplayAwakeKey = "defaultKeepDisplayAwake"
     private static let defaultModeKindKey = "defaultModeKind"
     private static let defaultModeDurationKey = "defaultModeDurationSeconds"
+    private static let didRequestNotifAuthKey = "didRequestNotificationAuthorization"
     private static let fallbackDuration: TimeInterval = 3600 * 8
 
     init() {
@@ -147,14 +162,43 @@ final class NightOwlViewModel: NightOwlViewModeling {
         guard case .on(_, _, let expiresAt?, _) = state else { return }
         if Date() >= expiresAt {
             logger.info("Wake: session expired during sleep; releasing")
-            turnOff()
+            turnOff(expired: true)
             return
         }
         scheduler.cancel()
         scheduler.schedule(expiresAt: expiresAt) { [weak self] in
-            self?.turnOff()
+            self?.turnOff(expired: true)
         }
         logger.info("Wake: rescheduled for \(expiresAt, privacy: .public)")
+    }
+
+    private func requestNotificationAuthorizationIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: Self.didRequestNotifAuthKey) else { return }
+        defaults.set(true, forKey: Self.didRequestNotifAuthKey)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { [weak self] granted, error in
+            if let error {
+                self?.logger.error("Notification auth error: \(String(describing: error), privacy: .public)")
+            } else {
+                self?.logger.info("Notification auth granted=\(granted, privacy: .public)")
+            }
+        }
+    }
+
+    private func postExpiryNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "NightOwl session ended"
+        content.body = "Your Mac is no longer being kept awake."
+        let request = UNNotificationRequest(
+            identifier: "nightowl.expiry.\(UUID().uuidString)",
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request) { [weak self] error in
+            if let error {
+                self?.logger.error("Notification post failed: \(String(describing: error), privacy: .public)")
+            }
+        }
     }
 
     private static func loadDefaultKeepDisplayAwake() -> Bool {
@@ -217,8 +261,9 @@ final class NightOwlViewModel: NightOwlViewModeling {
                     keepDisplayAwake: keepDisplayAwake
                 )
                 if let expires {
+                    requestNotificationAuthorizationIfNeeded()
                     scheduler.schedule(expiresAt: expires) { [weak self] in
-                        self?.turnOff()
+                        self?.turnOff(expired: true)
                     }
                 }
                 logger.info("NightOwl active; mode=\(self.selectedMode.displayLabel, privacy: .public)")
@@ -230,11 +275,14 @@ final class NightOwlViewModel: NightOwlViewModeling {
         }
     }
 
-    private func turnOff() {
+    private func turnOff(expired: Bool = false) {
         sleepAssertion.release()
         scheduler.cancel()
         state = .off
-        logger.info("NightOwl released")
+        if expired {
+            postExpiryNotification()
+        }
+        logger.info("NightOwl released (expired=\(expired, privacy: .public))")
     }
 
     func setMode(_ mode: AwakeMode) {

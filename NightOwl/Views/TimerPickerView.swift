@@ -27,7 +27,7 @@ struct TimerPickerView: View {
     private var modeMenu: some View {
         Menu {
             Button("Indefinite") { selectedMode = .indefinite }
-            Button("Until 8:00 AM") { selectedMode = .until(Self.nextEightAM(from: Date())) }
+            Button("Until next 8:00 AM") { selectedMode = .until(Self.nextEightAM(from: Date())) }
             Divider()
             Button("For 1 hour") { selectedMode = .duration(3600) }
             Button("For 4 hours") { selectedMode = .duration(3600 * 4) }
